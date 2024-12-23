@@ -19,7 +19,7 @@ func startRepl(cfg *config) {
 	scanner := bufio.NewScanner(os.Stdin)
 
 	for {
-		fmt.Print(" >")
+		fmt.Print("Pokedex > ")
 		scanner.Scan()
 
 		text := scanner.Text()
@@ -28,16 +28,19 @@ func startRepl(cfg *config) {
 			continue
 		}
 		inputCommand := cleaned[0]
+		fmt.Println(inputCommand)
 
 		commands := getCommands()
-		command, ok := commands[inputCommand]
-		if !ok {
-			fmt.Println("invalid command")
+		command, exists := commands[inputCommand]
+		if exists {
+			err := command.callback(cfg)
+			if err != nil {
+				fmt.Println(err)
+			}
 			continue
-		}
-		err := command.callback(cfg)
-		if err != nil {
-			fmt.Println(err)
+		} else {
+			fmt.Println("Unknown command")
+			continue
 		}
 	}
 }

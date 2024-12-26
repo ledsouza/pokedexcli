@@ -10,7 +10,7 @@ import (
 )
 
 type config struct {
-	pokeapiClient    pokeapi.Client
+	pokeapiClient    *pokeapi.Client
 	nextLocationsURL *string
 	prevLocationsURL *string
 }
@@ -28,7 +28,6 @@ func startRepl(cfg *config) {
 			continue
 		}
 		inputCommand := cleaned[0]
-		fmt.Println(inputCommand)
 
 		commands := getCommands()
 		command, exists := commands[inputCommand]
